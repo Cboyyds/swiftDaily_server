@@ -1,0 +1,59 @@
+system:
+  host: 192.168.20.5
+  port: 9981
+  env: debug
+  router_prefix: /api/v2
+  oss_type: local
+  sessions_secret: 8HY5gW04Nu11C4AknpejLG9Svdp_3TVHUhiJNccT5qM=
+captcha:
+  height: 40
+  width: 120
+  length: 6
+  max_skew: 0.3
+  dot_count: 80
+email:
+  host: smtp.qq.com
+  port: 465
+  from: 2910562670@qq.com
+  nickname: Ledko
+  secret: hjxcyzobayfkdddj #邮箱授权码
+  is_ssl: true
+jwt:
+  access_token_secret:  OrADW_K1kZVbOlg3DxmFBnzSeoGfB3lrJSDTdIeSDcc=
+  refresh_token_secret: 80KRWuQIL0bpdYKAN5Fs-xmodSQvO1oZlqDzyHUMjR4=
+  access_token_expiry_time: 15m
+  refresh_token_expiry_time: 7d
+  issuer: cxb  # 签发者
+mysql:
+  host: 192.168.10.5
+  port: 3306
+  config: charset=utf8mb4&parseTime=True&loc=Local
+  db_name: swiftDaily_syetem
+  username: root
+  password: 123456
+  max_idle_conns: 10
+  max_open_conns: 100
+  log_mode: info
+redis:
+  addr: 127.0.0.1:6379
+  password: ""
+  db: 0
+website:
+  logo: /upload/img/96d6f2e7e1f705ab5e59c84a6dc009b2-20250518155549.png # 网站logo
+  title: 汇报系统 # 网站标题
+  slogan: 汇报系统
+  slogan_en: debrief
+  description: 这是一个汇报系统
+  version: 1.0.0
+  created_at: 2025-5
+  name: cxb
+zap:
+  level: info
+  filename: log/debrief.log
+  max_size: 200
+  max_backups: 30
+  max_age: 5
+  is_console_print: true
+upload:
+  size: 20  #上传文件大小为20MB
+  path: upload
