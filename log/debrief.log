@@ -1,0 +1,31 @@
+{"level":"ERROR","time":"2025-05-27T11:45:42.777+0800","caller":"initialize/gorm.go:19","msg":"Failed to connect to Mysql","error":"invalid DSN: missing the slash separating the database name"}
+{"level":"ERROR","time":"2025-05-27T11:46:52.547+0800","caller":"initialize/gorm.go:19","msg":"Failed to connect to Mysql","error":"invalid DSN: missing the slash separating the database name"}
+{"level":"ERROR","time":"2025-05-27T11:47:16.338+0800","caller":"initialize/gorm.go:19","msg":"Failed to connect to Mysql","error":"invalid DSN: missing the slash separating the database name"}
+{"level":"ERROR","time":"2025-05-27T11:49:08.216+0800","caller":"initialize/gorm.go:21","msg":"Failed to connect to Mysql","error":"invalid DSN: missing the slash separating the database name"}
+{"level":"ERROR","time":"2025-05-27T11:49:28.812+0800","caller":"initialize/gorm.go:21","msg":"Failed to connect to Mysql","error":"invalid DSN: missing the slash separating the database name"}
+{"level":"ERROR","time":"2025-05-27T11:50:50.271+0800","caller":"core/server.go:20","msg":"server run failed","error":"listen tcp: lookup tcp/%!s(int=9981): unknown port"}
+{"level":"INFO","time":"2025-05-27T11:50:50.251+0800","caller":"initialize/corn.go:17","msg":"start","keysAndValues":null}
+{"level":"ERROR","time":"2025-05-27T11:52:24.094+0800","caller":"core/server.go:20","msg":"server run failed","error":"listen tcp: lookup tcp/%!s(int=8080): unknown port"}
+{"level":"INFO","time":"2025-05-27T11:52:24.077+0800","caller":"initialize/corn.go:17","msg":"start","keysAndValues":null}
+{"level":"ERROR","time":"2025-05-27T11:53:00.468+0800","caller":"core/server.go:20","msg":"server run failed","error":"listen tcp: lookup tcp/%!s(int=8080): unknown port"}
+{"level":"INFO","time":"2025-05-27T11:53:00.457+0800","caller":"initialize/corn.go:17","msg":"start","keysAndValues":null}
+{"level":"ERROR","time":"2025-05-27T11:55:32.193+0800","caller":"core/server.go:20","msg":"server run failed","error":"listen tcp: lookup tcp/%!s(int=8080): unknown port"}
+{"level":"INFO","time":"2025-05-27T11:55:32.178+0800","caller":"initialize/corn.go:17","msg":"start","keysAndValues":null}
+{"level":"INFO","time":"2025-05-27T14:33:35.133+0800","caller":"initialize/corn.go:17","msg":"start","keysAndValues":null}
+{"level":"ERROR","time":"2025-05-27T14:33:35.149+0800","caller":"core/server.go:20","msg":"server run failed","error":"listen tcp: lookup tcp/%!s(int=8080): unknown port"}
+{"level":"INFO","time":"2025-05-27T14:34:14.278+0800","caller":"initialize/corn.go:17","msg":"start","keysAndValues":null}
+{"level":"INFO","time":"2025-05-27T14:35:54.615+0800","caller":"middleware/logger.go:22","msg":"/api/v1/user/login","status":200,"method":"POST","path":"/api/v1/user/login","query":"","cost":"1.8384ms","ip":"127.0.0.1","user-agent":"Apifox/1.0.0 (https://apifox.com)","errors":""}
+{"level":"INFO","time":"2025-05-27T14:44:36.654+0800","caller":"initialize/corn.go:17","msg":"start","keysAndValues":null}
+{"level":"INFO","time":"2025-05-27T14:44:43.256+0800","caller":"middleware/logger.go:22","msg":"/api/v1/user/login","status":200,"method":"POST","path":"/api/v1/user/login","query":"","cost":"0s","ip":"127.0.0.1","user-agent":"Apifox/1.0.0 (https://apifox.com)","errors":""}
+{"level":"INFO","time":"2025-05-27T14:45:49.855+0800","caller":"middleware/logger.go:22","msg":"/api/v1/user/login","status":200,"method":"POST","path":"/api/v1/user/login","query":"","cost":"0s","ip":"127.0.0.1","user-agent":"Apifox/1.0.0 (https://apifox.com)","errors":""}
+{"level":"INFO","time":"2025-05-27T14:46:58.697+0800","caller":"middleware/logger.go:22","msg":"/api/v1/user/login","status":200,"method":"POST","path":"/api/v1/user/login","query":"","cost":"0s","ip":"127.0.0.1","user-agent":"Apifox/1.0.0 (https://apifox.com)","errors":""}
+{"level":"INFO","time":"2025-05-27T14:47:04.461+0800","caller":"middleware/logger.go:22","msg":"/api/v1/user/login","status":200,"method":"POST","path":"/api/v1/user/login","query":"","cost":"0s","ip":"127.0.0.1","user-agent":"Apifox/1.0.0 (https://apifox.com)","errors":""}
+{"level":"INFO","time":"2025-05-27T14:51:45.658+0800","caller":"initialize/corn.go:17","msg":"start","keysAndValues":null}
+{"level":"INFO","time":"2025-05-27T14:52:03.705+0800","caller":"middleware/logger.go:22","msg":"/api/v1/user/login","status":200,"method":"POST","path":"/api/v1/user/login","query":"","cost":"0s","ip":"127.0.0.1","user-agent":"Apifox/1.0.0 (https://apifox.com)","errors":""}
+{"level":"INFO","time":"2025-05-27T14:52:08.370+0800","caller":"middleware/logger.go:22","msg":"/api/v1/user/login","status":200,"method":"POST","path":"/api/v1/user/login","query":"","cost":"0s","ip":"127.0.0.1","user-agent":"Apifox/1.0.0 (https://apifox.com)","errors":""}
+{"level":"INFO","time":"2025-05-27T14:53:03.726+0800","caller":"initialize/corn.go:17","msg":"start","keysAndValues":null}
+{"level":"INFO","time":"2025-05-27T14:53:08.036+0800","caller":"middleware/logger.go:22","msg":"/api/v1/user/login","status":200,"method":"POST","path":"/api/v1/user/login","query":"","cost":"0s","ip":"127.0.0.1","user-agent":"Apifox/1.0.0 (https://apifox.com)","errors":""}
+{"level":"INFO","time":"2025-05-27T14:55:49.184+0800","caller":"initialize/corn.go:17","msg":"start","keysAndValues":null}
+{"level":"ERROR","time":"2025-05-27T14:55:58.784+0800","caller":"api/user.go:18","msg":"","error":"json: cannot unmarshal number into Go struct field Login.email of type string"}
+{"level":"INFO","time":"2025-05-27T14:55:58.784+0800","caller":"middleware/logger.go:22","msg":"/api/v1/user/login","status":200,"method":"POST","path":"/api/v1/user/login","query":"","cost":"542.2µs","ip":"127.0.0.1","user-agent":"Apifox/1.0.0 (https://apifox.com)","errors":""}
+{"level":"INFO","time":"2025-05-27T15:01:16.967+0800","caller":"middleware/logger.go:22","msg":"/api/v1/user/login","status":200,"method":"POST","path":"/api/v1/user/login","query":"","cost":"0s","ip":"127.0.0.1","user-agent":"Apifox/1.0.0 (https://apifox.com)","errors":""}

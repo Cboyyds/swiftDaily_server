@@ -1,8 +1,8 @@
 system:
-  host: 192.168.20.5
-  port: 9981
-  env: debug
-  router_prefix: /api/v2
+  host: 0.0.0.0
+  port: 8080
+  env: release #release
+  router_prefix: /api/v1
   oss_type: local
   sessions_secret: 8HY5gW04Nu11C4AknpejLG9Svdp_3TVHUhiJNccT5qM=
 captcha:
@@ -25,7 +25,7 @@ jwt:
   refresh_token_expiry_time: 7d
   issuer: cxb  # 签发者
 mysql:
-  host: 192.168.10.5
+  host: 127.0.0.1
   port: 3306
   config: charset=utf8mb4&parseTime=True&loc=Local
   db_name: swiftDaily_syetem

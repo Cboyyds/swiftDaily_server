@@ -19,7 +19,7 @@ type Mysql struct {
 }
 
 func (m *Mysql) DSN() string {
-	return m.Username + ":" + m.Password + "@tcp(" + m.Host + ":" + strconv.Itoa(m.Port) + ")" + m.DbName + "?" + m.Config
+	return m.Username + ":" + m.Password + "@tcp(" + m.Host + ":" + strconv.Itoa(m.Port) + ")/" + m.DbName + "?" + m.Config
 }
 func (m Mysql) LogLevel() logger.LogLevel {
 	switch strings.ToLower(m.LogMode) {
@@ -34,5 +34,5 @@ func (m Mysql) LogLevel() logger.LogLevel {
 	default:
 		return logger.Info
 	}
-	
+
 }
