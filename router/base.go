@@ -15,7 +15,7 @@ func (b *BaseRouter) InitBaseRouter(Router *gin.RouterGroup) {
 		// 1.获取验证码
 		baseRouter.POST("captcha", baseApi.GetCaptch)
 		// 2.获取邮箱验证码验证
-		baseRouter.POST("sendEmailVerificationCode", baseApi.GetEmailVerficationCode)
+		baseRouter.POST("sendEmailVerificationCode", baseApi.SendEmailVerificationCode)
 		// 3.获得qq登录链接
 	}
 }

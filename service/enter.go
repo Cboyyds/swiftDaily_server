@@ -2,6 +2,7 @@ package service
 
 type ServiceGroup struct {
 	JwtService
+	BaseService
 }
 
-var ServiceGroupApp = ServiceGroup{}
+var ServiceGroupApp = new(ServiceGroup)

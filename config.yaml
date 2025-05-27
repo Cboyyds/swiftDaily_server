@@ -15,7 +15,7 @@ email:
   host: smtp.qq.com
   port: 465
   from: 2910562670@qq.com
-  nickname: Ledko
+  nickname: Cbo
   secret: hjxcyzobayfkdddj #邮箱授权码
   is_ssl: true
 jwt:

@@ -1,7 +1,6 @@
 package initialize
 
 import (
-	"fmt"
 	"go.uber.org/zap"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -16,7 +15,6 @@ func InitGorm() *gorm.DB {
 		// 设置日志级别
 		Logger: logger.Default.LogMode(mysqlCfg.LogLevel()),
 	})
-	fmt.Println(mysqlCfg.DSN())
 	if err != nil {
 		global.Log.Error("Failed to connect to Mysql", zap.Error(err))
 		os.Exit(1)
