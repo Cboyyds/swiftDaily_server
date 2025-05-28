@@ -26,7 +26,7 @@ func Result(code int, data interface{}, msg string, c *gin.Context) {
 func OK(c *gin.Context) {
 	Result(Success, nil, "success", c)
 }
-func OKWithMessage(nil, msg string, c *gin.Context) {
+func OKWithMessage(msg string, c *gin.Context) {
 	Result(Success, nil, msg, c)
 }
 func OKWithData(data interface{}, c *gin.Context) {

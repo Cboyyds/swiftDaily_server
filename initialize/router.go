@@ -24,7 +24,7 @@ func InitRouter() *gin.Engine {
 	privateGroup := publicGroup
 	privateGroup.Use(middleware.JWTAuth()) // 不要用privateGroup = publicGroup.Use(middleware.JWTAuth()),privateGroup会是IRouter类型的
 	{
-		routerGroup.InitBaseRouter(publicGroup)
+		routerGroup.InitBaseRouter(publicGroup) // 还未加入qq登录
 	}
 	{
 		routerGroup.InitUserRouter(privateGroup, publicGroup)
