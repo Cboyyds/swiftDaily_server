@@ -13,7 +13,7 @@ import (
 type UserApi struct {
 }
 
-func (u *UserApi) Login(c *gin.Context) {
+func (u *UserApi) EmailLogin(c *gin.Context) {
 	var req request.Login
 	err := c.ShouldBindJSON(&req)
 	if err != nil {
