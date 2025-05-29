@@ -358,8 +358,132 @@ Cookic和session
 	"github.com/gin-contrib/sessions/cookie"
 ```
 
-
-
-
-
 我才发现原来邮箱验证码是我自己生成发给我自己的啊
+
+1，uuid如何生成给用户
+
+```
+	"github.com/google/uuid"
+```
+
+```
+	user.Password = utils.BcryptHash(user.Password)
+	user.UUID = uuid.Must(uuid.NewV6())
+```
+
+2.session的使用，保存上下文，可以用来判断，注册的是否为刚才验证码的发送邮箱
+
+```
+session:= sessions.Default(c)
+savedEmail := session.Get("email")
+```
+
+3.我本来就一直很疑惑，表究竟是什么时候被创建的呢，突然想通了，是在我直接数据库建表的时候，而不是用gorm创建的
+
+4，博客里面用到的所有的第三方api都是通过自己写的utils.http里面的函数实现的
+
+```go
+package utils
+
+import (
+	"bytes"
+	"encoding/json"
+	"net/http"
+	"net/url"
+)
+
+// HttpRequest 发起HTTP请求并返回响应结果。
+// method: HTTP方法，如GET、POST等。
+// urlStr: 请求的URL地址。
+// headers: 请求头，用于设置请求的头部信息。
+// params: 查询参数，将附加到URL的查询字符串中。
+// data: 请求体数据，将被序列化为JSON格式。
+// 返回值: *http.Response类型的响应对象和error类型的错误信息。
+func HttpRequest(
+	method string,
+	urlStr string,
+	headers map[string]string,
+	params map[string]string,
+	data any) (*http.Response, error) {
+	// 解析URL地址，确保其有效性。
+	u, err := url.Parse(urlStr)
+	if err != nil {
+		return nil, err
+	}
+	// 构建查询字符串。
+	query := u.Query()
+	for k, v := range params {
+		query.Set(k, v)
+	}
+	u.RawQuery = query.Encode()
+	// 构建请求体。
+	buf := new(bytes.Buffer)
+	if data != nil {
+		b, err := json.Marshal(data)
+		if err != nil {
+			return nil, err
+		}
+		buf = bytes.NewBuffer(b)
+	}
+	// 创建新的HTTP请求。
+	req,err := http.NewRequest(method,u.String(),buf)
+	if err != nil {
+		return nil,err
+	}
+	// 设置请求头。
+	for k,v := range headers {
+		req.Header.Set(k,v)
+	}
+	// 设置Content-Type为application/json，仅当有请求体时设置。
+	if data != nil {
+		req.Header.Set("Content-Type","application/json")
+	}
+	// 发起HTTP请求并获取响应。
+	resp,err:= http.DefaultClient.Do(req)
+	return resp,err
+}
+
+```
+
+5，用到uaparser库
+
+ github.com/ua-parser/uap-go   是一个用 Go 语言实现的用户代理（User-Agent）字符串解析库，它是基于著名的 ua-parser 项目的 Go 语言版本。以下是它的主要作用和功能：主要作用1. 解析用户代理字符串：• 从 HTTP 请求头中的用户代理字符串中提取设备、操作系统、浏览器等信息。• 将复杂的用户代理字符串转化为结构化的数据，便于进一步处理和分析。2. 支持多种应用场景：• 网站分析：通过解析用户代理字符串，了解用户使用的浏览器和操作系统分布，从而优化网站设计和功能兼容性。• 设备适配：根据用户代理信息，为不同设备提供定制的用户体验，例如移动端和桌面端的适配。• 日志分析：在服务器日志中解析用户代理信息，分析用户行为和访问模式。• 安全防护：识别潜在的恶意访问，例如通过检测异常的用户代理字符串来提高系统安全性。功能特点1. 高性能：• 使用 Go 语言实现，执行效率高，适合处理大量用户代理字符串。• 内部使用正则表达式匹配，解析速度快。2. 易用性：• 提供简单易用的 API，开发者可以快速集成到现有项目中。• 示例代码简单直观，便于理解和使用。3. 可扩展性：• 支持自定义正则表达式，可以根据需要添加新的解析规则。• 可以通过更新规则库（如   regexes.yaml   文件）来扩展解析能力。4. 准确性：• 基于成熟的 ua-parser 项目，提供了准确的用户代理解析能力。• 规则库由社区维护，覆盖了大量的设备、浏览器和操作系统类型。
+
+```
+go get github.com/ua-parser/uap-go/uaparser
+```
+
+```
+// 解析用户代理（User-Agent）字符串，提取操作系统、设备信息和浏览器信息
+func parseUserAgent(userAgent string) (os, deviceInfo, browserInfo string) {
+	os = userAgent
+	deviceInfo = userAgent
+	browserInfo = userAgent
+
+	parser := uaparser.NewFromSaved()
+	cli := parser.Parse(userAgent)
+	os = cli.Os.Family
+	deviceInfo = cli.Device.Family
+	browserInfo = cli.UserAgent.Family
+
+	return
+}
+```
+
+
+
+
+
+
+
+------
+
+问题：
+
+1，高德获取地址的时候，现在无法获取到地址了
+
+2，问题已解决：在 MySQL 中，  TINYINT(1)   经常被用来存储布尔值（  0   表示   false  ，  1   表示   true  ），但这并不是标准的布尔类型。它仍然是一个整数类型，只是习惯上用来表示布尔逻辑。
+
+```
+type:tinyint(1);
+```

@@ -28,7 +28,7 @@ mysql:
   host: 127.0.0.1
   port: 3306
   config: charset=utf8mb4&parseTime=True&loc=Local
-  db_name: swiftDaily_syetem
+  db_name: swiftdailiy_system
   username: root
   password: 123456
   max_idle_conns: 10
@@ -57,3 +57,6 @@ zap:
 upload:
   size: 20  #上传文件大小为20MB
   path: upload
+gaode:
+  enable: true #有时候enable不知道什么时候用的
+  key: ecd5f4093ff8723f2db26720cf1aed34
