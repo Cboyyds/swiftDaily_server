@@ -1,11 +1,9 @@
 package service
 
 import (
-	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"swiftDaily_myself/global"
 	"swiftDaily_myself/utils"
-	"time"
 )
 
 type BaseService struct {
@@ -13,13 +11,16 @@ type BaseService struct {
 
 func (b *BaseService) SendEmailVerificationCode(c *gin.Context, to string) error {
 	verificationCode := utils.GenerateVerificationCode(6)
-	expireTime := time.Now().Add(5 * time.Minute).Unix()
+
+	// expireTime := time.Now().Add(10 * time.Minute).Unix() // 设置时间长度为10分钟
 	// 将验证码，验证邮箱，过期时间存入会话中
-	session := sessions.Default(c)
-	session.Set("email", to)
-	session.Set("verification_code", verificationCode)
-	session.Set("expire_time", expireTime)
-	_ = session.Save()
+	// session := sessions.Default(c)
+	// session.Set("email", to)
+	// // session.Set("verification_code", verificationCode)
+	// session.Set("verification_code", 666666)
+	// session.Set("expire_time", expireTime)
+	// _ = session.Save()
+
 	subject := "尊敬的汇报系统用户，您的验证码！"
 	body := `亲爱的用户[` + to + `]，<br/>
 <br/>
