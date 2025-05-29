@@ -18,7 +18,6 @@ type User struct {
 	CompanyID uint   `json:"company_ID"`
 	DeptID    uint   `json:"dept_id"`
 	RoleID    uint   `json:"role_id"`
-	Role      Role   `json:"user" gorm:"foreignKey:ID"`
-	Status    int    `json:"status" gorm:"enum(1,2,3);default:2"` // 1,在线，2，离线，3，冻结
+	Status    int    `json:"status" gorm:"enum(1,2,3);default:3"` // 1,在线，2，登录失败，3，离线
 	DeletedBy string `json:"deleted_by"`                          // 是谁删除了他的人的id
 }

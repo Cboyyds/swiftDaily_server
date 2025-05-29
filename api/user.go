@@ -8,20 +8,10 @@ import (
 	"swiftDaily_myself/model/database"
 	"swiftDaily_myself/model/request"
 	"swiftDaily_myself/model/response"
+	"swiftDaily_myself/utils"
 )
 
 type UserApi struct {
-}
-
-func (u *UserApi) Login(c *gin.Context) {
-	var req request.Login
-	err := c.ShouldBindJSON(&req)
-	if err != nil {
-		global.Log.Error("", zap.Error(err))
-		response.FailWithMessage(err.Error(), c)
-		return
-	}
-	response.OKWithData(req, c)
 }
 
 func (u *UserApi) EmailRegister(c *gin.Context) {
@@ -53,7 +43,7 @@ func (u *UserApi) EmailRegister(c *gin.Context) {
 	var user database.User = database.User{
 		Email:     req.Email,
 		UserName:  req.Username,
-		Password:  req.Password,
+		Password:  utils.BcryptHash(req.Password), // 对密码进行加密处理
 		CompanyID: req.CompanyID,
 		UUID:      uuid.Must(uuid.NewV6()),
 	}
@@ -65,4 +55,30 @@ func (u *UserApi) EmailRegister(c *gin.Context) {
 	response.OK(c)
 	global.Log.Info("register success", zap.Any("user", user))
 	return
+}
+func (u *UserApi) EmailLogin(c *gin.Context) {
+	var req request.Login
+	if err := c.ShouldBindJSON(&req); err != nil {
+		response.FailWithMessage("Failed to bind JSON", c)
+		global.Log.Error("Failed to bind JSON", zap.Error(err))
+		return
+	}
+	//  判断验证码是否正确
+	// if !store.Verify(req.CaptchaID, req.Captcha, true) {
+	// 	response.FailWithMessage("验证码错误", c)
+	// 	global.Log.Error("验证码错误", zap.Error(errors.New("验证码错误")))
+	// 	return
+	// }
+	user := database.User{
+		Email:    req.Account,
+		Password: req.Password,
+	}
+	user, err := baseService.EmailLogin(&user)
+	if err != nil {
+		response.FailWithMessage(err.Error(), c)
+		global.Log.Error(err.Error(), zap.Error(err))
+		return
+	}
+	response.OKWithDetail(user, "登录成功", c)
+	global.Log.Info("login success", zap.Any("user", user))
 }

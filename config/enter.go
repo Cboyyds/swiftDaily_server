@@ -10,4 +10,5 @@ type Config struct {
 	Captcha Captcha `json:"captcha" yaml:"captcha"`
 	Website Website `json:"website" yaml:"website"`
 	Upload  Upload  `json:"upload" yaml:"upload"`
+	Gaode   Gaode   `json:"gaode" yaml:"gaode"`
 }

@@ -16,7 +16,7 @@ func InitRouter() *gin.Engine {
 	// 配置日志记录中间件
 	Router.Use(middleware.GinLogger(), middleware.GinRecovery(true))                // 根据stack参数决定是否记录堆栈信息
 	Router.StaticFS(global.Config.Upload.Path, http.Dir(global.Config.Upload.Path)) // http.Dir(...)：将本地目录转为 HTTP 文件系统接
-	cookieStore := cookie.NewStore([]byte(global.Config.System.SessionsSecret))
+	cookieStore := cookie.NewStore([]byte(global.Config.System.SessionsSecret))     // 会话层密钥就是对会话层进行一个加密
 	Router.Use(sessions.Sessions("session", cookieStore))
 	routerGroup := router.RouterGroupApp // 初始化各个路由和绑定对应的处理函数
 	// 创建路由组
