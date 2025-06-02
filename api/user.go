@@ -82,3 +82,36 @@ func (u *UserApi) EmailLogin(c *gin.Context) {
 	response.OKWithDetail(user, "登录成功", c)
 	global.Log.Info("login success", zap.Any("user", user))
 }
+
+func (userApi *UserApi) TokenNext(c *gin.Context, user database.User) {
+	// 是否冻结
+
+	//
+	baseClaims := request.BaseClaims{
+		UserID: user.ID,
+		UUID:   user.UUID,
+		RoleID: user.RoleID,
+	}
+	j := utils.NewJWT()
+	accessClaims := j.CreateAccessClaims(baseClaims)
+	accessToken, err := j.CreateAccessToken(accessClaims)
+	if err != nil {
+		global.Log.Error("create access token error", zap.Error(err))
+		response.FailWithMessage("create access token error", c)
+		return
+	}
+	// 创建刷新令牌
+	refreshClaim := j.CreateRefreshClaims(baseClaims)
+	refreshToken, err := j.CreateRefreshToken(refreshClaim)
+	if err != nil {
+		global.Log.Error("create refresh token error", zap.Error(err))
+		response.FailWithMessage("create refresh token error", c)
+		return
+	}
+	// 它还用了一个什么多地点拦截
+
+	//
+
+	// 检查用户jwt是否存在redis中
+
+}
