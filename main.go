@@ -12,7 +12,7 @@ func main() {
 	global.DB = initialize.InitGorm()
 	global.Redis = initialize.InitRedis()
 	initialize.InitRouter()
-	
+
 	initialize.InitCorn()
 	core.RunServer()
 }
