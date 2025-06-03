@@ -85,7 +85,7 @@ func (u *UserApi) EmailLogin(c *gin.Context) {
 
 func (userApi *UserApi) TokenNext(c *gin.Context, user database.User) {
 	// 是否冻结
-
+	
 	//
 	baseClaims := request.BaseClaims{
 		UserID: user.ID,
@@ -108,10 +108,14 @@ func (userApi *UserApi) TokenNext(c *gin.Context, user database.User) {
 		response.FailWithMessage("create refresh token error", c)
 		return
 	}
-	// 它还用了一个什么多地点拦截
-
-	//
-
+	
 	// 检查用户jwt是否存在redis中
-
+	if jwtStr, err := jwtService.GetRedisJWT(user.UUID, global.Ctx); err != nil {
+		if err := jwtService.SetRedisJWT(refreshToken, user.UUID, global.Ctx); err != nil {
+			global.Log.Error("not find jwtRefreshToken in redis")
+			
+		}
+		
+	}
+	
 }

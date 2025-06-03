@@ -38,3 +38,6 @@ func OKWithDetail(data interface{}, msg string, c *gin.Context) {
 func FailWithMessage(msg string, c *gin.Context) {
 	Result(Error, nil, msg, c)
 }
+func NoAuth(msg string, c *gin.Context) {
+	Result(Error, nil, msg, c)
+}
