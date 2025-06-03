@@ -1,14 +1,17 @@
 package api
 
 import (
+	"errors"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/redis/go-redis/v9"
 	"go.uber.org/zap"
 	"swiftDaily_myself/global"
 	"swiftDaily_myself/model/database"
 	"swiftDaily_myself/model/request"
 	"swiftDaily_myself/model/response"
 	"swiftDaily_myself/utils"
+	"time"
 )
 
 type UserApi struct {
@@ -79,13 +82,18 @@ func (u *UserApi) EmailLogin(c *gin.Context) {
 		global.Log.Error(err.Error(), zap.Error(err))
 		return
 	}
-	response.OKWithDetail(user, "登录成功", c)
-	global.Log.Info("login success", zap.Any("user", user))
+	// response.OKWithDetail(user, "登录成功", c)
+	// global.Log.Info("login success", zap.Any("user", user))
+	// 注册成功后，生成token并返回
+	u.TokenNext(c, user)
 }
 
 func (userApi *UserApi) TokenNext(c *gin.Context, user database.User) {
 	// 是否冻结
-	
+	// if user.Freeze {
+	// 	response.FailWithMessage("用户被冻结", c)
+	// 	return
+	// }
 	//
 	baseClaims := request.BaseClaims{
 		UserID: user.ID,
@@ -108,14 +116,42 @@ func (userApi *UserApi) TokenNext(c *gin.Context, user database.User) {
 		response.FailWithMessage("create refresh token error", c)
 		return
 	}
-	
 	// 检查用户jwt是否存在redis中
-	if jwtStr, err := jwtService.GetRedisJWT(user.UUID, global.Ctx); err != nil {
-		if err := jwtService.SetRedisJWT(refreshToken, user.UUID, global.Ctx); err != nil {
-			global.Log.Error("not find jwtRefreshToken in redis")
-			
-		}
-		
-	}
+	jwtStr, err := jwtService.GetRedisJWT(user.UUID, global.Ctx)
 	
+	if errors.Is(err, redis.Nil) {
+		userApi.SetRedisWithJwt(refreshToken, accessToken, refreshClaim, accessClaims, user, c)
+	}
+	if err == nil {
+		// Redis 中已存在该用户的 JWT，将旧的 JWT 加入黑名单，并设置新的 token
+		var blacklist database.JwtBlacklist
+		blacklist.Jwt = jwtStr
+		if err := jwtService.JoinInBlackList(blacklist); err != nil {
+			global.Log.Error(err.Error(), zap.Error(err))
+			response.FailWithMessage(err.Error(), c)
+			return
+		}
+		userApi.SetRedisWithJwt(refreshToken, accessToken, refreshClaim, accessClaims, user, c)
+	}
+	if err != redis.Nil || err != nil {
+		global.Log.Error("Failed to set login status", zap.Error(err))
+		response.FailWithMessage("Failed to set login status", c)
+	}
+}
+
+// 感觉应该写在service层
+func (userApi *UserApi) SetRedisWithJwt(refreshToken string, accessToken string, refreshClaim request.JwtCustomRefreshClaims, accessClaims request.JwtCustomClaims, user database.User, c *gin.Context) {
+	if err := jwtService.SetRedisJWT(refreshToken, user.UUID, global.Ctx); err != nil {
+		global.Log.Error(err.Error(), zap.Error(err))
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	// 设置刷新令牌并返回
+	utils.SetRefreshToken(c, refreshToken, int(refreshClaim.ExpiresAt.Unix()-time.Now().Unix()))
+	c.Set("user_id", user.ID)
+	response.OKWithDetail(response.Login{
+		User:              user,
+		AccessToken:       accessToken,
+		AccessTokenExpire: accessClaims.ExpiresAt.Unix() * 1000, // 该代码将 accessClaims.ExpiresAt 的 Unix 时间戳（秒级）转换为毫秒级，并赋值给 AccessTokenExpire 字段。
+	}, "Successful login", c)
 }

@@ -12,6 +12,7 @@ import (
 type JwtService struct {
 }
 
+// SetRedisJwt设置根据refreshtoken是否过期设置
 func (jwtService *JwtService) SetRedisJWT(jwt string, uuid uuid.UUID, ctx context.Context) error {
 	dr, err := utils.ParseDuration(global.Config.Jwt.RefreshTokenExpire)
 	if err != nil {
@@ -32,6 +33,11 @@ func (jwtService *JwtService) JoinInBlackList(jwtList database.JwtBlacklist) err
 	// 将jwt添加到内存中的黑名单缓存
 	global.BlackCache.SetDefault(jwtList.Jwt, struct{}{})
 	return nil
+}
+
+func (jwtService *JwtService) IsInBlacklist(jwt string) bool {
+	_, ok := global.BlackCache.Get(jwt)
+	return ok
 }
 
 func LoadAll() {

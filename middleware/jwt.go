@@ -20,7 +20,12 @@ func JWTAuth() gin.HandlerFunc {
 		accessToken := utils.GetAccessToken(c)
 		refreshToken := utils.GetRefreshToken(c)
 		// 黑名单
-
+		if jwtService.IsInBlacklist(refreshToken) {
+			utils.ClearRefreshToken(c)
+			response.NoAuth("The user does not exist", c)
+			c.Abort()
+			return
+		}
 		//
 		j := utils.NewJWT()
 		claims, err := j.ParshAccessToken(accessToken)
@@ -45,7 +50,7 @@ func JWTAuth() gin.HandlerFunc {
 					UUID:   user.UUID,
 					RoleID: user.RoleID,
 				})
-				newAccessToken, err := j.CreatAccessToken(newAccessClaims)
+				newAccessToken, err := j.CreateAccessToken(newAccessClaims)
 				if err != nil {
 					utils.ClearRefreshToken(c)
 					response.NoAuth("The user does not exist", c)
